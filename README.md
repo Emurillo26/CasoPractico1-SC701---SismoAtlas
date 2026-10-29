@@ -10,6 +10,7 @@ Caso Práctico 1 — Programación Avanzada Web (SC-701) — Grupo 4.
 - Goleath Arrieta Jefry
 - Gómez Sequeira María Pamela
 - García Murillo Engel
+- Castillo Villalobos Dayana
 
 ## Estructura de la solución
 
