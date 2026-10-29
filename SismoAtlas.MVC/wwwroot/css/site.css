@@ -1,15 +1,577 @@
-/* Estilos de SismoAtlas. TODO (MVC): estilos finales del diseño, responsivos. */
+/* =========================================================
+   SismoAtlas - Estilos
+   Caso Práctico 1 - SC-701 - Grupo 4
+   ========================================================= */
+
+/* ---------- Colores y medidas (variables) ---------- */
+:root {
+    --navy: #0f1f3d; /* azul oscuro: títulos y recuadro */
+    --navy-2: #33435f; /* texto secundario oscuro */
+    --muted: #5b6b86; /* texto gris */
+    --teal: #0e9aa7; /* color principal (botón, logo) */
+    --teal-dark: #0b7f8a;
+    --teal-soft: #c9f1f2; /* fondo de la etiqueta */
+    --bg: #f4f8fb; /* fondo de la página */
+    --hero-bg: #e6f0f6; /* fondo del buscador */
+    --card: #ffffff;
+    --border: #dbe5ee;
+    --line: #e6edf3;
+    --yellow-bg: #fde9b8; /* magnitud alta */
+    --yellow-bd: #f2c35b;
+    --yellow-tx: #6b4700;
+    --cyan-bg: #c9f1f2; /* magnitud media */
+    --cyan-bd: #5fd0d6;
+    --cyan-tx: #0b4f55;
+    --radius: 14px;
+    --shadow: 0 10px 30px rgba(15, 31, 61, .08);
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
 
 body {
     margin: 0;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    background: #f4f8fb;
-    color: #0f1f3d;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--navy);
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-.placeholder {
-    max-width: 720px;
-    margin: 80px auto;
+main {
+    flex: 1;
+}
+
+h1, h2, h3 {
+    font-family: "Outfit", "Inter", sans-serif;
+    margin: 0;
+    letter-spacing: -.02em;
+}
+
+.container {
+    width: 100%;
+    max-width: 1140px;
+    margin: 0 auto;
     padding: 0 16px;
+}
+
+/* Texto solo para lectores de pantalla (accesibilidad) */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+/* ---------- Header ---------- */
+.site-header {
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 58px;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "Outfit", sans-serif;
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: var(--navy);
+    text-decoration: none;
+    letter-spacing: -.02em;
+}
+
+.brand-icon {
+    width: 34px;
+    height: 24px;
+    color: var(--teal);
+}
+
+.header-link {
+    font-weight: 600;
+    font-size: .95rem;
+    color: var(--navy-2);
+}
+
+/* ---------- Hero (buscador) ---------- */
+.hero {
+    position: relative;
+    overflow: hidden;
+    padding: 26px 0 30px;
     text-align: center;
+    background: radial-gradient(ellipse 60% 70% at 15% 110%, rgba(14, 154, 167, .10), transparent 70%), radial-gradient(ellipse 55% 60% at 90% 100%, rgba(15, 31, 61, .07), transparent 70%), repeating-radial-gradient(circle at 20% 40%, transparent 0 22px, rgba(15, 31, 61, .035) 22px 23px), var(--hero-bg);
+}
+
+.hero-inner {
+    position: relative;
+}
+
+.pill {
+    display: inline-block;
+    background: var(--teal-soft);
+    color: var(--cyan-tx);
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    padding: 8px 22px;
+    border-radius: 999px;
+}
+
+.hero h1 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 800;
+    margin-top: 14px;
+    line-height: 1.1;
+}
+
+.hero-sub {
+    margin: 8px 0 20px;
+    font-size: clamp(.95rem, 1.6vw, 1.05rem);
+    color: var(--navy-2);
+}
+
+/* Barra de búsqueda */
+.search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 6px 6px 6px 16px;
+    box-shadow: var(--shadow);
+}
+
+    .search:focus-within {
+        border-color: var(--teal);
+        box-shadow: 0 0 0 4px rgba(14, 154, 167, .15), var(--shadow);
+    }
+
+.search-icon {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    color: var(--navy-2);
+}
+
+.search input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font: inherit;
+    font-size: 1.05rem;
+    color: var(--navy);
+    padding: 8px 12px 8px 4px;
+    border-right: 1px solid var(--border);
+}
+
+    .search input::placeholder {
+        color: #94a3b8;
+    }
+
+.btn-search {
+    flex-shrink: 0;
+    border: 0;
+    border-radius: 10px;
+    background: var(--teal);
+    color: #fff;
+    font: inherit;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 11px 36px;
+    cursor: pointer;
+    transition: background .2s ease, transform .1s ease;
+}
+
+    .btn-search:hover {
+        background: var(--teal-dark);
+    }
+
+    .btn-search:active {
+        transform: scale(.98);
+    }
+
+.search-hint {
+    margin: 12px 0 0;
+    font-size: .82rem;
+    color: var(--muted);
+}
+
+/* ---------- Resultados ---------- */
+.results {
+    padding: 28px 0 34px;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 28px;
+    align-items: start;
+}
+
+.results-title {
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.results-sub {
+    margin: 4px 0 18px;
+    font-size: .95rem;
+    color: var(--navy-2);
+}
+
+/* Tarjetas de estadísticas */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.stat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 22px;
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-family: "Outfit", sans-serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.stat-label {
+    font-size: .9rem;
+    color: var(--navy-2);
+}
+
+/* Tabla de sismos */
+.table-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.quake-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .quake-table th {
+        background: #eef2f6;
+        text-align: left;
+        font-size: .88rem;
+        font-weight: 600;
+        color: var(--navy-2);
+        padding: 12px 24px;
+    }
+
+    .quake-table td {
+        padding: 11px 24px;
+        border-top: 1px solid var(--line);
+        font-size: .95rem;
+        color: var(--navy-2);
+    }
+
+    .quake-table tbody tr:hover {
+        background: #f7fafc;
+    }
+
+/* Etiquetas de magnitud */
+.mag {
+    display: inline-block;
+    min-width: 58px;
+    text-align: center;
+    font-weight: 700;
+    font-size: .95rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid;
+}
+
+.mag-alta {
+    background: var(--yellow-bg);
+    border-color: var(--yellow-bd);
+    color: var(--yellow-tx);
+}
+
+.mag-media {
+    background: var(--cyan-bg);
+    border-color: var(--cyan-bd);
+    color: var(--cyan-tx);
+}
+
+.mag-baja {
+    background: #e3f7f8;
+    border-color: #9fe0e4;
+    color: var(--cyan-tx);
+}
+
+.table-note {
+    margin: 14px 0 0;
+    font-size: .85rem;
+    color: var(--muted);
+}
+
+/* ---------- Recuadro flotante del país ---------- */
+.country-card {
+    position: sticky; /* se queda visible al bajar (requisito: recuadro flotante) */
+    top: 20px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.country-body {
+    position: relative; /* para ubicar el mapa en la esquina */
+    padding: 26px 24px 16px 26px;
+}
+
+/* Silueta del país, suave, a la par de la bandera */
+.country-map {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    width: 130px;
+    height: 130px;
+    object-fit: contain;
+    opacity: .14;
+    pointer-events: none;
+}
+
+.country-flag,
+.country-name,
+.country-region,
+.country-data {
+    position: relative; /* quedan por encima del mapa */
+}
+
+.country-flag {
+    display: block;
+    width: 118px;
+    height: auto;
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px var(--line);
+}
+
+.country-name {
+    margin-top: 14px;
+    font-size: 1.7rem;
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+.country-region {
+    margin: 4px 0 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 1rem;
+    color: var(--navy-2);
+}
+
+.country-data {
+    margin: 14px 0 0;
+}
+
+    .country-data div {
+        display: grid;
+        grid-template-columns: 110px 1fr;
+        padding: 5px 0;
+    }
+
+    .country-data dt {
+        color: var(--muted);
+        font-size: .95rem;
+    }
+
+    .country-data dd {
+        margin: 0;
+        font-weight: 500;
+        font-size: .95rem;
+    }
+
+.country-footer {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--navy);
+    color: #fff;
+    padding: 16px 26px;
+    border-radius: 16px;
+    font-weight: 600;
+    font-size: .95rem;
+}
+
+    .country-footer svg {
+        width: 26px;
+        height: 26px;
+        flex-shrink: 0;
+    }
+
+/* ---------- Footer ---------- */
+.site-footer {
+    border-top: 1px solid var(--line);
+    background: var(--bg);
+}
+
+.footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    font-size: .85rem;
+    color: var(--muted);
+}
+
+    .footer-inner strong {
+        color: var(--navy-2);
+    }
+
+/* =========================================================
+   Responsivo
+   ========================================================= */
+
+/* Tablets: el recuadro del país pasa debajo */
+@media (max-width: 1024px) {
+    .results-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .country-card {
+        position: static;
+        max-width: 520px;
+    }
+}
+
+/* Celulares */
+@media (max-width: 640px) {
+    .header-link {
+        display: none;
+    }
+
+    .hero {
+        padding: 26px 0 30px;
+    }
+
+    .pill {
+        font-size: .68rem;
+        letter-spacing: .18em;
+        padding: 7px 16px;
+    }
+
+    /* Buscador: el botón baja y ocupa todo el ancho */
+    .search {
+        flex-wrap: wrap;
+        padding: 8px;
+    }
+
+    .search-icon {
+        margin-left: 8px;
+    }
+
+    .search input {
+        border-right: 0;
+        font-size: 1.05rem;
+    }
+
+    .btn-search {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .stats {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 12px;
+    }
+
+    .stat {
+        padding: 14px 20px;
+    }
+
+    /* Tabla: cada sismo se muestra como una tarjeta */
+    .quake-table thead {
+        display: none;
+    }
+
+    .quake-table tr {
+        display: block;
+        padding: 12px 18px;
+        border-top: 1px solid var(--line);
+    }
+
+    .quake-table tbody tr:first-child {
+        border-top: 0;
+    }
+
+    .quake-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 6px 0;
+        border-top: 0;
+        font-size: 1rem;
+    }
+
+        .quake-table td::before {
+            content: attr(data-label);
+            font-weight: 600;
+            font-size: .85rem;
+            color: var(--muted);
+        }
+
+    .country-body {
+        padding: 24px 20px 16px;
+    }
+
+    .country-map {
+        width: 100px;
+        height: 100px;
+    }
+
+    .country-data div {
+        grid-template-columns: 110px 1fr;
+    }
+
+    .country-footer {
+        padding: 18px 20px;
+    }
+
+    .footer-inner {
+        flex-direction: column;
+    }
 }

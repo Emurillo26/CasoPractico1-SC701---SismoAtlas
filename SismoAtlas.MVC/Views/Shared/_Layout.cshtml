@@ -4,12 +4,42 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SismoAtlas</title>
+
+    <!-- Fuentes: Outfit para títulos, Inter para el texto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet" />
+
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
+
+    <!-- ===== Header ===== -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" asp-controller="Home" asp-action="Index" aria-label="SismoAtlas, inicio">
+                <svg class="brand-icon" viewBox="0 0 48 32" aria-hidden="true">
+                    <polyline points="2,18 12,18 16,10 21,28 26,4 31,22 35,14 46,14"
+                              fill="none" stroke="currentColor" stroke-width="3.4"
+                              stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span>SismoAtlas</span>
+            </a>
+            <span class="header-link">Explorador de sismos</span>
+        </div>
+    </header>
+
     <main>
         @RenderBody()
     </main>
+
+    <!-- ===== Footer ===== -->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <span><strong>SismoAtlas</strong> · Proyecto académico · Grupo 4</span>
+            <span>Fuentes: USGS y REST Countries</span>
+        </div>
+    </footer>
 
     <!-- SweetAlert2 para los mensajes de error personalizados -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
