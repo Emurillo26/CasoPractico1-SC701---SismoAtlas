@@ -1,6 +1,139 @@
-@* Landing page de SismoAtlas. TODO (MVC): construir el diseño final (buscador, tabla y recuadro del país). *@
+@*
+    Landing page de SismoAtlas (única pantalla de la app).
 
-<section class="placeholder">
-    <h1>SismoAtlas</h1>
-    <p>Explora los sismos de un país. En construcción.</p>
+    DISEÑO (Engel): esta vista tiene DATOS DE EJEMPLO para mostrar cómo se ve.
+    LÓGICA (Álvaro): reemplazar los datos de ejemplo por los que vengan del API
+    (lista de sismos + información del país). Cada bloque está marcado con "DATOS:".
+*@
+
+@{
+    ViewData["Title"] = "Explora los sismos de un país";
+}
+
+<!-- ===== Hero con el buscador ===== -->
+<section class="hero">
+    <div class="container hero-inner">
+        <span class="pill">Actividad sísmica por país</span>
+        <h1>Explora los sismos de un país</h1>
+        <p class="hero-sub">Consulta registros históricos y conoce más sobre cada destino.</p>
+
+        @* El formulario envía el país al controller Home/Index por GET (?pais=...) *@
+        <form class="search" method="get" asp-controller="Home" asp-action="Index" id="formBusqueda" novalidate>
+            <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+                <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            <label for="pais" class="sr-only">Nombre del país</label>
+            <input type="text" id="pais" name="pais" maxlength="100"
+                   placeholder="Escribe un país, por ejemplo Costa Rica"
+                   autocomplete="off" value="Costa Rica" />
+            <button type="submit" class="btn-search">Buscar</button>
+        </form>
+        <p class="search-hint">Escribe únicamente el nombre de un país · Máximo 100 caracteres.</p>
+    </div>
+</section>
+
+<!-- ===== Resultados ===== -->
+<section class="results">
+    <div class="container results-grid">
+
+        <!-- Columna izquierda: sismos -->
+        <div class="results-main">
+            <h2 class="results-title">Sismos en Costa Rica</h2> @* DATOS: nombre del país buscado *@
+            <p class="results-sub">3 resultados de ejemplo.</p> @* DATOS: cantidad de resultados *@
+
+            <!-- Tarjetas de estadísticas -->
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-value">3</span> @* DATOS: total de registros *@
+                    <span class="stat-label">Registros</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">5,2</span> @* DATOS: magnitud máxima *@
+                    <span class="stat-label">Magnitud máxima</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">18 km</span> @* DATOS: profundidad promedio *@
+                    <span class="stat-label">Profundidad media</span>
+                </div>
+            </div>
+
+            <!-- Tabla de sismos -->
+            <div class="table-card">
+                <table class="quake-table">
+                    <thead>
+                        <tr>
+                            <th>Magnitud</th>
+                            <th>Ubicación</th>
+                            <th>Fecha</th>
+                            <th>Profundidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @*
+                            DATOS: una fila <tr> por cada sismo.
+                            Clase de la magnitud según el valor:
+                              mag-alta  -> 5 o más   (amarillo)
+                              mag-media -> 4 a 4,9   (celeste)
+                              mag-baja  -> menos de 4 (celeste claro)
+                        *@
+                        <tr>
+                            <td data-label="Magnitud"><span class="mag mag-alta">5,2</span></td>
+                            <td data-label="Ubicación">Cerca de Jacó</td>
+                            <td data-label="Fecha">08 oct 2026</td>
+                            <td data-label="Profundidad">22 km</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Magnitud"><span class="mag mag-media">4,1</span></td>
+                            <td data-label="Ubicación">Al sur de Quepos</td>
+                            <td data-label="Fecha">06 oct 2026</td>
+                            <td data-label="Profundidad">15 km</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Magnitud"><span class="mag mag-baja">3,6</span></td>
+                            <td data-label="Ubicación">Cerca de Golfito</td>
+                            <td data-label="Fecha">03 oct 2026</td>
+                            <td data-label="Profundidad">17 km</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="table-note">Datos ilustrativos para el diseño.</p>
+        </div>
+
+        <!-- Columna derecha: recuadro flotante del país -->
+        <aside class="country-card" aria-label="Información del país">
+            <div class="country-body">
+                @*
+                    DATOS: mapa (silueta) del país. Cambiar "cr" por el código de 2 letras
+                    del país en minúscula (en REST Countries viene como "cca2").
+                    Si el mapa no carga, onerror lo quita y no se ve roto.
+                *@
+                <img class="country-map" src="https://cdn.jsdelivr.net/gh/djaiss/mapsicon/all/cr/vector.svg"
+                     alt="" aria-hidden="true" onerror="this.remove()" />
+
+                @* DATOS: bandera (URL que trae REST Countries) *@
+                <img class="country-flag" src="https://flagcdn.com/w320/cr.png" alt="Bandera de Costa Rica" />
+                <h3 class="country-name">Costa Rica</h3> @* DATOS: nombre *@
+                <p class="country-region">América Central</p> @* DATOS: subregión *@
+
+                <dl class="country-data">
+                    <div><dt>Capital</dt><dd>San José</dd></div>                 @* DATOS *@
+                    <div><dt>Idioma</dt><dd>Español</dd></div>                  @* DATOS *@
+                    <div><dt>Moneda</dt><dd>Colón costarricense</dd></div>       @* DATOS *@
+                    <div><dt>Región</dt><dd>América</dd></div>                   @* DATOS *@
+                    <div><dt>Población</dt><dd>5 105 525</dd></div>              @* DATOS *@
+                </dl>
+            </div>
+            <div class="country-footer">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8" />
+                    <ellipse cx="12" cy="12" rx="4" ry="9" fill="none" stroke="currentColor" stroke-width="1.8" />
+                    <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="1.8" />
+                </svg>
+                <span>Información del país</span>
+            </div>
+        </aside>
+
+    </div>
 </section>
