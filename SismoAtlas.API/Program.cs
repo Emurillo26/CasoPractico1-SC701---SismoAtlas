@@ -1,4 +1,8 @@
+using System.Net.Http.Headers;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using SismoAtlas.API.Middleware;
+using SismoAtlas.API.Services;
 using SismoAtlas.DAL.Context;
 using SismoAtlas.DAL.Repositories;
 
@@ -20,10 +24,30 @@ builder.Services.AddDbContext<SismoAtlasDbContext>(options =>
 builder.Services.AddScoped<IEarthquakeRepository, EarthquakeRepository>();
 
 // TODO (API USGS - Jefry): registrar el servicio de carga inicial de sismos.
-// TODO (API RestCountries - Dayana): registrar el servicio de países.
+
+// API RestCountries (Dayana)
+builder.Services.Configure<RestCountriesOptions>(
+    builder.Configuration.GetSection(RestCountriesOptions.SectionName));
+
+builder.Services.AddHttpClient<ICountryService, CountryService>((sp, client) =>
+{
+    var opts = sp.GetRequiredService<IOptions<RestCountriesOptions>>().Value;
+
+    var baseUrl = opts.BaseUrl.EndsWith('/') ? opts.BaseUrl : opts.BaseUrl + "/";
+    client.BaseAddress = new Uri(baseUrl);
+    client.Timeout = TimeSpan.FromSeconds(opts.TimeoutSeconds);
+    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+    if (!string.IsNullOrWhiteSpace(opts.ApiKey))
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", opts.ApiKey);
+});
+
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 var app = builder.Build();
 
+app.UseExceptionHandler();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
