@@ -41,8 +41,11 @@ builder.Services.AddHttpClient<ICountryService, CountryService>((sp, client) =>
     if (!string.IsNullOrWhiteSpace(opts.ApiKey))
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", opts.ApiKey);
 });
+// Búsqueda por país: combina REST Countries + sismos de la BD en una sola respuesta
+builder.Services.AddScoped<IEarthquakeSearchService, EarthquakeSearchService>();
 
 builder.Services.AddProblemDetails();
+
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 var app = builder.Build();

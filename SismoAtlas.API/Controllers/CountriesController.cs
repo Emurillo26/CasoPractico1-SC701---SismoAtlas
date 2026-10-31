@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+﻿using SismoAtlas.API.Validation;
 using Microsoft.AspNetCore.Mvc;
 using SismoAtlas.API.Services;
 using SismoAtlas.DTO;
@@ -9,7 +9,6 @@ namespace SismoAtlas.API.Controllers
     [Route("api/[controller]")]
     public class CountriesController : ControllerBase
     {
-        private static readonly Regex NameRegex = new(@"^[\p{L}\s.'\-]+$", RegexOptions.Compiled);
 
         private readonly ICountryService _countryService;
 
@@ -21,7 +20,7 @@ namespace SismoAtlas.API.Controllers
         [HttpGet("{name}")]
         public async Task<ActionResult<CountryDto>> GetByName(string name, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrWhiteSpace(name) || name.Length > 100 || !NameRegex.IsMatch(name))
+            if (!CountryNameValidator.IsValid(name))
             {
                 return BadRequest(new ProblemDetails
                 {
