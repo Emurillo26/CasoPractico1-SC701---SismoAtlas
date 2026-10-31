@@ -3,6 +3,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using SismoAtlas.API.Services;
+using System.Data.Common;
 
 namespace SismoAtlas.API.Middleware
 {
@@ -26,10 +27,12 @@ namespace SismoAtlas.API.Middleware
                     "El servicio externo tardó demasiado en responder. Intente de nuevo."),
                 HttpRequestException => ((int)HttpStatusCode.BadGateway, "Servicio externo no disponible",
                     "No se pudo conectar con el servicio externo. Intente de nuevo más tarde."),
+                DbException => ((int)HttpStatusCode.ServiceUnavailable, "Base de datos no disponible",
+              "No se pudo consultar la base de datos. Intente de nuevo más tarde."),
                 JsonException => ((int)HttpStatusCode.BadGateway, "Respuesta inesperada",
                     "El servicio externo devolvió datos que no se pudieron leer."),
                 _ => ((int)HttpStatusCode.InternalServerError, "Error interno",
-                    "Ocurrió un error inesperado. Intente de nuevo más tarde.")
+                    "Ocurrió un error inesperado. Intente de nuevo más tarde."),
             };
 
             if (status >= 500)
