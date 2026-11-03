@@ -23,7 +23,8 @@ builder.Services.AddDbContext<SismoAtlasDbContext>(options =>
 // DAL: Repository Pattern
 builder.Services.AddScoped<IEarthquakeRepository, EarthquakeRepository>();
 
-// TODO (API USGS - Jefry): registrar el servicio de carga inicial de sismos.
+// API USGS
+builder.Services.AddHttpClient<IUsgsService, UsgsService>();
 
 // API RestCountries (Dayana)
 builder.Services.Configure<RestCountriesOptions>(
@@ -49,6 +50,14 @@ builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 var app = builder.Build();
+
+// API USGS carga inicial de los sismos a la BD
+// Si la tabla ya tiene datos no llama al API
+using (var scope = app.Services.CreateScope())
+{
+    var usgsService = scope.ServiceProvider.GetRequiredService<IUsgsService>();
+    await usgsService.CargaInicialAsync();
+}
 
 app.UseExceptionHandler();
 app.UseHttpsRedirection();

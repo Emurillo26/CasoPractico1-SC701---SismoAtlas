@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SismoAtlas.DAL.Context;
 using SismoAtlas.DAL.Entities;
 
@@ -54,6 +54,9 @@ namespace SismoAtlas.DAL.Repositories
             await _context.Earthquakes.AddRangeAsync(aGuardar);
             await _context.SaveChangesAsync();
 
+            // Libera los sismos que EF tiene en memoria; así la carga de miles de registros no se vuelve lenta
+            _context.ChangeTracker.Clear();
+
             return aGuardar.Count;
         }
 
@@ -68,4 +71,4 @@ namespace SismoAtlas.DAL.Repositories
                 .ToListAsync();
         }
     }
-}
+}

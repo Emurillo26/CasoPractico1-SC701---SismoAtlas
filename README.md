@@ -47,7 +47,12 @@ Caso Práctico 1 — Programación Avanzada Web (SC-701) — Grupo 4.
 
 ## Adicionales
 
-_Por completar._
+- **Carga por rangos:** USGS solo devuelve 20 000 sismos por llamada, por eso la carga inicial se hace mes por mes (de `StartTime` a `EndTime`). Cada mes se guarda en la BD antes de pedir el siguiente.
+- **Sin repetir datos:** el repositorio ignora los `Id` de USGS que ya existen. Si la tabla ya tiene sismos, al arrancar el API **no** llama a USGS.
+- **Pedir registros nuevos:** `POST https://localhost:7100/api/usgs/sync` guarda solo los sismos posteriores al más reciente que hay en la BD (también sirve para continuar una carga que se interrumpió).
+- **País del sismo:** se saca del campo `place` de USGS (lo que está después de la última coma). Los estados de EE. UU. se guardan como `United States`.
+- **Memory Cache:** cada rango consultado a USGS y cada país consultado a REST Countries se guardan en `IMemoryCache`.
+- La primera vez que corre el API tarda unos minutos en arrancar porque está cargando los sismos.
 
 ## Tecnologías
 
